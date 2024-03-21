@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+</head>
+
+<body>
+    <main>
+        <div class="bg-wrap">
+            <div class="container">
+                <h1>Weather</h1>
+
+                <input type="text" id="city" placeholder="Enter a city">
+                <button>SEARCH</button>
+                <h2></h2>
+                <h3></h3>
+                <div class="forecast">
+                    <div class="day day1"></div>
+                    <div class="day day2"></div>
+                    <div class="day day3"></div>
+                    <div class="day day4"></div>
+                    <div class="day day5"></div>
+                </div>
+                <canvas id="myChart"></canvas>
+            </div>
+
+            <img class="bg" alt="">
+        </div>
+    </main>
+</body>
+
+</html>

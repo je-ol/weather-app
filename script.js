@@ -167,6 +167,9 @@ window.addEventListener('load', async () => {
         await retrieveWeather();
         await retrieveForecast();
         await attachImage();
+        forecast.style.backgroundColor = 'rgba(0, 3, 24, 0.289)';
+        const canvas = document.querySelector('canvas');
+        canvas.style.backgroundColor = 'rgba(2, 0, 19, 0.489)';
     }
 });
 
@@ -176,6 +179,9 @@ button.addEventListener('click', async () => {
     await retrieveForecast();
     await attachImage();
     saveLastCity(city);
+    forecast.style.backgroundColor = 'rgba(0, 3, 24, 0.289)';
+    const canvas = document.querySelector('canvas');
+    canvas.style.backgroundColor = 'rgba(2, 0, 19, 0.489)';
 });
 
 input.addEventListener('keydown', async (e) => {
@@ -185,5 +191,8 @@ input.addEventListener('keydown', async (e) => {
         await retrieveForecast();
         await attachImage();
         saveLastCity(city);
+        forecast.style.backgroundColor = 'rgba(0, 3, 24, 0.289)';
+        const canvas = document.querySelector('canvas');
+        canvas.style.backgroundColor = 'rgba(2, 0, 19, 0.489)';
     }
 });

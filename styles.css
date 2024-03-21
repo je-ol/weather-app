@@ -73,7 +73,6 @@ main .container button {
 main .container .forecast {
   display: flex;
   justify-content: space-evenly;
-  background-color: rgba(0, 3, 24, 0.289);
   border-radius: 10px;
   padding: 5px;
 }
@@ -85,7 +84,6 @@ main .container canvas {
   max-width: 100%;
   align-self: center;
   color: white;
-  background-color: rgba(2, 0, 19, 0.489);
   border-radius: 10px;
   padding: 5px;
 }

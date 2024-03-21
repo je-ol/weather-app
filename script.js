@@ -6,6 +6,8 @@ const temperature = document.querySelector('h2')
 const cityTitle = document.querySelector('h3');
 const forecast = document.querySelector('.forecast');
 let myChart = document.getElementById('myChart').getContext('2d');
+const today = new Date();
+const currentDate = today.toISOString().slice(0, 10);
 let tempChart = 0;
 
 const saveLastCity = (city) => {
@@ -15,17 +17,28 @@ const getLastCity = () => {
     return localStorage.getItem('lastCity') || ''; // If not found, return empty string
 };
 
+const isPast3PM = () => {
+    const currentHour = today.getHours();
+    return currentHour >= 15;
+};
 
 const getNextFiveDays = () => {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const today = new Date();
     const nextFiveDays = [];
-
-    for (let i = 0; i < 5; i++) {
-        const nextDay = new Date(today);
-        nextDay.setDate(today.getDate() + i);
-        const dayName = days[nextDay.getDay()];
-        nextFiveDays.push(dayName);
+    if (isPast3PM()) {
+        for (let i = 1; i <= 5; i++) {
+            const nextDay = new Date(today);
+            nextDay.setDate(today.getDate() + i);
+            const dayName = days[nextDay.getDay()];
+            nextFiveDays.push(dayName);
+        }
+    } else {
+        for (let i = 0; i < 5; i++) {
+            const nextDay = new Date(today);
+            nextDay.setDate(today.getDate() + i);
+            const dayName = days[nextDay.getDay()];
+            nextFiveDays.push(dayName);
+        }
     }
     return nextFiveDays;
 };
@@ -85,11 +98,11 @@ const attachResults = async (data) => {
     try {
         const receivedTemps = [];
         let count = 0;
-        
+
         for (let i = 0; i < data.list.length; i++) {
             const forecastItem = data.list[i];
-            
-            if (forecastItem.dt_txt.includes("15:00:00")) {
+
+            if (forecastItem.dt_txt.includes("15:00:00") && !forecastItem.dt_txt.includes(currentDate)) {
                 count++;
                 const dayDiv = document.querySelector(`.day${count}`);
                 const dayTitle = document.createElement('h3');
@@ -102,19 +115,20 @@ const attachResults = async (data) => {
                 dayDiv.appendChild(weatherIcon);
                 dayDiv.appendChild(dayTemp);
                 receivedTemps.push(forecastItem.main.temp_max.toFixed(1));
-                
+
                 // Break the loop
                 if (count === 5) {
                     break;
                 }
             }
         }
-        
+
         createChart(receivedTemps);
     } catch (e) {
         console.log('Missing data', e);
     }
 }
+
 const retrieveWeather = async () => {
     try {
         const city = input.value;

@@ -88,6 +88,12 @@ main .container canvas {
   padding: 5px;
 }
 
+@media screen and (max-width: 1600px) {
+  main .bg-wrap .container {
+    width: 400px;
+    height: 580px;
+  }
+}
 @media screen and (max-width: 486px) {
   main {
     margin-top: 20px;
@@ -101,11 +107,5 @@ main .container canvas {
   }
   main .bg-wrap .container input {
     width: 65%;
-  }
-}
-@media screen and (max-width: 1600px) {
-  main .bg-wrap .container {
-    width: 400px;
-    height: 580px;
   }
 }

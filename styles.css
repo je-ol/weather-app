@@ -103,3 +103,9 @@ main .container canvas {
     width: 65%;
   }
 }
+@media screen and (max-width: 1600px) {
+  main .bg-wrap .container {
+    width: 400px;
+    height: 580px;
+  }
+}

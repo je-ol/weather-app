@@ -58,6 +58,7 @@ const cleanResults = () => {
 }
 const createChart = (receivedTemps) => {
     Chart.defaults.color = '#FFF';
+    Chart.defaults.borderColor = '#BBB';
     Chart.defaults.textShadow = '1px 1px 2px black';
     tempChart = new Chart(myChart, {
         type: 'line',
@@ -73,7 +74,7 @@ const createChart = (receivedTemps) => {
                     'rgba(75, 192, 192, 0.9)',
                     'rgba(153, 102, 255, 0.9)'
                 ],
-                borderColor: '#EEE',
+                borderColor: '#FFF',
 
             }]
         },
@@ -82,27 +83,37 @@ const createChart = (receivedTemps) => {
 }
 const attachResults = async (data) => {
     try {
-        let count = 0;
         const receivedTemps = [];
-        for (let i = 1; i <= 33; i += 8) {
-            count++;
-            const dayDiv = document.querySelector(`.day${count}`);
-            const dayTitle = document.createElement('h3');
-            const weatherIcon = document.createElement('img');
-            const dayTemp = document.createElement('h4');
-            dayTitle.innerText = nextFiveDays[count - 1]
-            weatherIcon.src = `https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@4x.png`;
-            dayTemp.innerText = data.list[i].main.temp_max.toFixed(1) + '°C';
-            dayDiv.appendChild(dayTitle);
-            dayDiv.appendChild(weatherIcon)
-            dayDiv.appendChild(dayTemp);
-            receivedTemps.push(data.list[i].main.temp_max.toFixed(1));
+        let count = 0;
+        
+        for (let i = 0; i < data.list.length; i++) {
+            const forecastItem = data.list[i];
+            
+            if (forecastItem.dt_txt.includes("15:00:00")) {
+                count++;
+                const dayDiv = document.querySelector(`.day${count}`);
+                const dayTitle = document.createElement('h3');
+                const weatherIcon = document.createElement('img');
+                const dayTemp = document.createElement('h4');
+                dayTitle.innerText = nextFiveDays[count - 1];
+                weatherIcon.src = `https://openweathermap.org/img/wn/${forecastItem.weather[0].icon}@4x.png`;
+                dayTemp.innerText = forecastItem.main.temp_max.toFixed(1) + '°C';
+                dayDiv.appendChild(dayTitle);
+                dayDiv.appendChild(weatherIcon);
+                dayDiv.appendChild(dayTemp);
+                receivedTemps.push(forecastItem.main.temp_max.toFixed(1));
+                
+                // Break the loop
+                if (count === 5) {
+                    break;
+                }
+            }
         }
-        createChart(receivedTemps)
+        
+        createChart(receivedTemps);
     } catch (e) {
         console.log('Missing data', e);
     }
-
 }
 const retrieveWeather = async () => {
     try {
@@ -142,7 +153,7 @@ const attachImage = async () => {
         } else {
             bg.src = data[0].urls.regular;
         }
-        
+
     } catch (e) {
         console.log('Could not attach image', e)
     }
@@ -152,7 +163,7 @@ const attachImage = async () => {
 window.addEventListener('load', async () => {
     const lastCity = getLastCity();
     if (lastCity) {
-        input.value = lastCity; 
+        input.value = lastCity;
         await retrieveWeather();
         await retrieveForecast();
         await attachImage();
@@ -164,7 +175,7 @@ button.addEventListener('click', async () => {
     await retrieveWeather();
     await retrieveForecast();
     await attachImage();
-    saveLastCity(city); 
+    saveLastCity(city);
 });
 
 input.addEventListener('keydown', async (e) => {
@@ -173,6 +184,6 @@ input.addEventListener('keydown', async (e) => {
         await retrieveWeather();
         await retrieveForecast();
         await attachImage();
-        saveLastCity(city); 
+        saveLastCity(city);
     }
 });

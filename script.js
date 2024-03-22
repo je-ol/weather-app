@@ -1,5 +1,5 @@
 const apiKey1 = 'c01790319b2a0d3d9189e9847c3c945a';
-/* const apiKey2 = 'zCaVs0NuMuPDqhi6B6_n-06vV3In5kdUmExvnfwhyZM' */
+const apiKey2 = 'zCaVs0NuMuPDqhi6B6_n-06vV3In5kdUmExvnfwhyZM'
 const input = document.getElementById('city');
 const button = document.querySelector('button');
 const temperature = document.querySelector('h2')
@@ -98,12 +98,9 @@ const attachResults = async (data) => {
     try {
         const receivedTemps = [];
         let count = 0;
-
         for (let i = 0; i < data.list.length; i++) {
             const forecastItem = data.list[i];
-
             if (forecastItem.dt_txt.includes("15:00:00")) {
-                console.log(forecastItem)
                 count++;
                 const dayDiv = document.querySelector(`.day${count}`);
                 const dayTitle = document.createElement('h3');
@@ -121,10 +118,8 @@ const attachResults = async (data) => {
                 if (count === 5) {
                     break;
                 }
-
             }
         }
-
         createChart(receivedTemps);
     } catch (e) {
         console.log('Missing data', e);
@@ -150,7 +145,6 @@ const retrieveForecast = async () => {
         }
         const city = input.value;
         const data = await getForecast(city);
-        console.log(data)
         attachResults(data);
     } catch (e) {
         console.log('Weather not found', e);

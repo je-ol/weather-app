@@ -1,5 +1,5 @@
 const apiKey1 = 'c01790319b2a0d3d9189e9847c3c945a';
-const apiKey2 = 'zCaVs0NuMuPDqhi6B6_n-06vV3In5kdUmExvnfwhyZM'
+/* const apiKey2 = 'zCaVs0NuMuPDqhi6B6_n-06vV3In5kdUmExvnfwhyZM' */
 const input = document.getElementById('city');
 const button = document.querySelector('button');
 const temperature = document.querySelector('h2')
@@ -102,7 +102,8 @@ const attachResults = async (data) => {
         for (let i = 0; i < data.list.length; i++) {
             const forecastItem = data.list[i];
 
-            if (forecastItem.dt_txt.includes("15:00:00") && !forecastItem.dt_txt.includes(currentDate)) {
+            if (forecastItem.dt_txt.includes("15:00:00")) {
+                console.log(forecastItem)
                 count++;
                 const dayDiv = document.querySelector(`.day${count}`);
                 const dayTitle = document.createElement('h3');
@@ -120,6 +121,7 @@ const attachResults = async (data) => {
                 if (count === 5) {
                     break;
                 }
+
             }
         }
 
